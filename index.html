@@ -15,7 +15,7 @@
         <div id="header">
           D&amp;D Beyond to Fantasy Grounds Character Converter
         </div>
-        <div id='jqxMenu' style='visibility: hidden; margin-left: 5px;'>
+        <div id='jqxMenu' style='visibility: hidden; margin-right: 5px;'>
           <ul>
             <li><a id="goHome" href="">Home</a></li>
             <li><a id="extLinks" href="">Links</a></li>
@@ -24,29 +24,34 @@
             <li><a id="showDonations" href="">Donate</a></li>
           </ul>
         </div>
-        <h2>Instructions</h2> Select FG Version: <div id="verButtonC">Classic</div><div id="verButtonU">Unity</div>
-        <pre>
-Log into your <a href="https://www.dndbeyond.com/my-content/characters" target="_blank">D&amp;D Beyond Account</a>.
-Move your mouse over the 'Creations' tab at the top of the window and select 'My Characters'.
-Find the character you want to convert and click 'View'.
-Take a look at the Address bar, it should look something like:
-https://www.dndbeyond.com/profile/YourUserName/characters/<b>8675309</b>
+        <h2>Instructions</h2> 
+        <pre><ol type="1">
+<li>Log into your <a href="https://www.dndbeyond.com/my-content/characters" target="_blank">D&amp;D Beyond Account</a>.</li>
+<li>Navigate to Collections > <a href="https://www.dndbeyond.com/my-characters" target="_blank">My Characters</a>.</li>
+<li>Click <b>View</b> on the desired character. </li>
+<li>Look at your brower's address bar for your character id
+For Exammple: https://www.dndbeyond.com/profile/YourUserName/characters/<b>8675309</b>
 
-Find the Character ID. In the above example it's <b>8675309</b>.
-Paste this ID in the 'Character ID' text box and click 'Get Character Data'.
-It will take a short while in order for the data to populate.
-Click the 'Download XML' button to save the character to your computer.</pre>
+In the above example it's <b>8675309</b>.</li>
+<li>Paste this ID in the 'Character ID' text box and click 'Get Character Data'.</li>
+	<b>DDB Character ID:&nbsp;&nbsp;<input type="text" id="getcharID">&nbsp;&nbsp;<button id="grabChar">Get Character Data</button></b><br /> 
+<li>Click this link (opens in a new tab/window): <div id="jsonUrlText">NOT READY</div></li>
+<li>Copy the JSON string (if you're using Firefox, you may need to click the "Raw Data" tab).</li>
+<li>Select FG Version: <div id="verButtonC">Classic</div><div id="verButtonU">Unity</div></li>
+<li>Paste the JSON string into the "Character JSON" field and click Submit Character Data.
+	<b>DDB Character JSON:&nbsp;&nbsp;<textarea id="charJSON"></textarea>&nbsp;&nbsp;<br />
+	<button id="submitChar">Submit Character Data</button></b><br /> 
+        <br />
+
+<li>Click the 'Download XML' button to save the character to your computer.
+	<b>FG Character XML:&nbsp;&nbsp;</b><textarea id="textHere"></textarea><br /></li>
+	<button id="dlChar">Download XML</button>&nbsp;&nbsp;<button id="resetChar">Reset ALL</button><br /><br /></li></pre>
 For instructions on how to import the XML file into Fantasy Grounds,
 please watch <a href="https://www.youtube.com/watch?v=Rzd6zPxClFY">
 <b>this video</b></a> by Digital Dungeon Master.<br /><br />
         <!--<b>Character ID:&nbsp;&nbsp;<input type="text" id="getcharID">&nbsp;&nbsp;<button id="grabChar">Get Character Data</button><button id="popCharID">Choose</button></b><br />-->
-        <b>Character ID:&nbsp;&nbsp;<input type="text" id="getcharID">&nbsp;&nbsp;<button id="grabChar">Get Character Data</button></b><br />
-        <br />
-        <textarea id="textHere"></textarea><br />
-        <button id="dlChar">Download XML</button>&nbsp;&nbsp;<button id="resetChar">Reset ALL</button><br /><br />
-
-        <h5>Have a suggestion? Found a problems? Please use <b>CONTACT</b> in the left side menu.</h5>
-      
+<div id="imageAttribution"> Photo by <a href="https://www.pexels.com/@jplenio?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexelshttps://www.pexels.com/@jplenio?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels" target="_blank">Johannes Plenio</a> from <a href="https://www.pexels.com/photo/tree-tunnel-at-daytime-1165982/?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels" target="_blank">Pexels</a>.</div>
+<h5>Have a suggestion? Found a problems? Please use <b>CONTACT</b> in the right side menu.</h5>
       <div id="displayLinks">
         <div style="width: 100%; height: 650px; margin-top: 50px;" id="dispLinkContainer">
             <div id="Linkwindow">
@@ -101,6 +106,9 @@ please watch <a href="https://www.youtube.com/watch?v=Rzd6zPxClFY">
                     <p>20200405-1: <br />
                       &nbsp;&nbsp;&nbsp;Fixed spell slots for multi-class spell casters
                     </p>
+					<p>20200405-1: <br />
+                      &nbsp;&nbsp;&nbsp;Reworked form flow to not rely on server-side scripting
+                    </p>
                   </div>
                 </div>
             </div>
@@ -119,8 +127,7 @@ please watch <a href="https://www.youtube.com/watch?v=Rzd6zPxClFY">
                   <div>
                     <p>If you want to donate:<br />
 Please consider becoming a <a href="https://www.patreon.com/FGC" target="_blank">Patreon of FGC.</a><br />
-&nbsp;&nbsp;&nbsp;<b>OR</b><br />
-Make a donation to <a href="https://www.hollandhospice.org/give-today/" target="_blank">Holland Hospice.</a><br /><br />
+&nbsp;&nbsp;&nbsp;<br /><br />
 I have no financial affiliations with <a href="https://fantasygroundscollege.net/" target="_blank">FGC</a> (Fantasy Grounds College).<br />
 This project would never have started were it not for them. <br />They do great work.
                     </p>
@@ -131,7 +138,7 @@ This project would never have started were it not for them. <br />They do great 
       </div>
     </div>
       <footer>
-        &nbsp;&nbsp;&copy;David S. Berkompas, 2020
+        &nbsp;&nbsp;
     </footer>
     </body>
     <script
