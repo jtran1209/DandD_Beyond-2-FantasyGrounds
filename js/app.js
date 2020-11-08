@@ -259,9 +259,10 @@ $(function() {
     $("#Linkwindow").jqxWindow("close");
     $("#CLwindow").jqxWindow("close");
     $("#DONwindow").jqxWindow("close");
-    $("#grabChar").jqxButton({ width: "150px", height: "35px", theme: "darkblue" });
+    $("#grabChar").jqxButton({ width: "175px", height: "35px", theme: "darkblue" });
+	$("#submitChar").jqxButton({ width: "175px", height: "35px", theme: "darkblue" });
     $("#textHere").jqxTextArea({ theme: "darkblue", width: 750, height: 150, placeHolder: "XML will appear here." });
-    $("#getcharID").jqxInput({ placeHolder: "Enter Character ID", height: "35px", width: 200, minLength: 4, theme: "darkblue"});
+    $("#charJSON").jqxTextArea({ placeHolder: "Enter Character JSON", height: "35px",  width: 750, height: 150,  theme: "darkblue"});
     $("#dlChar").jqxButton({ width: "120px", height: "35px", theme: "darkblue" });
     $("#resetChar").jqxButton({ width: "120px", height: "35px", theme: "darkblue" });
     $("#verButtonC").jqxRadioButton({width: 250, height: 25, checked: true, theme: "darkblue"});
@@ -279,7 +280,7 @@ $(function() {
     });
     $('#contactUs').click(function(e) {
         e.preventDefault();
-        window.open("https://docs.google.com/forms/d/1OTSE0zUqEcq14Epyp73YVHM9AavhI0uvtH1NeoRoKiA/edit", "_blank");
+        window.open("https://github.com/jtran1209/DandD_Beyond-2-FantasyGrounds", "_blank");
     });
     $('#showChangelog').click(function(e) {
         e.preventDefault();
@@ -291,27 +292,12 @@ $(function() {
     });
 
     $('#grabChar').on("click", function() {
-        if (fgVersion == 0) {
-            if (confirm("You've selected to create a character for FG Classic. Is this correct?")){
-                //
-            } else {
-                return(false);
-            }
-        } else {
-            if (confirm("You've selected to create a character for FG Unity. Is this correct?")){
-                //
-            } else {
-                return(false);
-            }
-        }
         if(!$('#getcharID').val().trim().match(/\d+/)) {
             alert("Um, please enter your Character ID");
-        } else if ($('#textHere').val() != "")  {
-            var resetMe = confirm("You need to clear previous data, do you want me to do that for you?");
-            if (resetMe == 1) {
-                window.location.reload(false);
-            }
-        } else {
+        } else   {
+			$('#jsonUrlText').html('<a href="https://character-service.dndbeyond.com/character/v3/character/' + $('#getcharID').val().trim() + '" target="_blank">READY</a> <b>&lt;--CLICK HERE</b>');
+		}
+			/*
             $.ajax({
                 data: { charID:  $('#getcharID').val().trim() },
                 url: 'scripts/getChar.php',
@@ -330,8 +316,36 @@ $(function() {
                     return;
                 }
             });
+        } */ 
+			
+	});
+	$('#submitChar').on("click", function() {
+		if (fgVersion == 0) {
+            if (confirm("You've selected to create a character for FG Classic. Is this correct?")){
+                //
+            } else {
+                return(false);
+            }
+        } else {
+            if (confirm("You've selected to create a character for FG Unity. Is this correct?")){
+                //
+            } else {
+                return(false);
+            }
         }
-    });
+
+		if(!$.parseJSON($('#charJSON').val().trim())) {
+			alert("Um, please enter a valid JSON-string");
+		} else if ($('#textHere').val() != "")  {
+			var resetMe = confirm("You need to clear previous data, do you want me to do that for you?");
+			if (resetMe == 1) {
+				$('#textHere').val('');
+			}
+		} else {
+			parseCharacter($.parseJSON($('#charJSON').val().trim()));
+		}
+		
+	});
 
     $("#dlChar").on("click", function() {
         if ($("#textHere").val() == "") {
@@ -359,7 +373,10 @@ $(function() {
     });
 
     $("#resetChar").on("click", function() {
-        window.location.reload(false);
+        $('#textHere').val('');
+		$('#charJSON').val('')
+		$('#getcharID').val('')
+		$('#jsonUrlText').html('NOT READY');
     });
 
     // fgVersion = 0: Classic; = 1: Unity
@@ -374,13 +391,14 @@ $(function() {
 });
 
 function parseCharacter(inputChar) {
-    var character = jQuery.extend(true, {}, inputChar);
+    var wrapper = jQuery.extend(true, {}, inputChar);
+	var character = wrapper.data
     if(character.hasOwnProperty("errorCode")) {
         var alertString = " could not be found.\n";
         alertString += "Either the character doesn't actually exist,\n";
         alertString += "or the character is set to 'Private' instead of 'Public'.\n\n";
         alertString += "Yes, your character MUST be set to PUBLIC.";
-        alert("Character " + $("#getcharID").val() + alertString);
+        alert("Character " + character.id + alertString);
     } else {
         if (fgVersion == 0) {
             startXML = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
@@ -392,7 +410,7 @@ function parseCharacter(inputChar) {
             startXML += "\t<character>\n";
         }
     allXML = startXML;
-    var buildXML = "\t\t<!--" + $("#getcharID").val().trim() + "-->\n";
+    var buildXML = "\t\t<!--" + character.id + "-->\n";
 
     pcFilename = character.name.replace(/\W/g, '');
     buildXML += "\t\t<name type=\"string\">" + character.name + "</name>\n";
@@ -1204,7 +1222,7 @@ function parseCharacter(inputChar) {
             buildXML += "\t\t\t\t<carried type=\"number\">1</carried>\n";
         }
 
-        if(item.definition.hasOwnProperty("damage")) {
+        if(item.definition.damage != null) {
             thisDamage = "";
             thisDamType = "";
             if(item.definition.damage != null) {
@@ -3514,7 +3532,7 @@ function parseCharacter(inputChar) {
 
     buildXML += "\t\t<notes type=\"string\">";
     var allNotes = "";
-    allNotes += "D" + "&amp;" + "D Beyond Character ID: " + $("#getcharID").val().trim() + "\\n";
+    allNotes += "D" + "&amp;" + "D Beyond Character ID: " + character.id + "\\n";
     if (character.hasOwnProperty("notes")) {
         
         //console.log("We found notes.");

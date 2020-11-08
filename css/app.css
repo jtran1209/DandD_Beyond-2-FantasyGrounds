@@ -32,9 +32,13 @@
 
 body {
     /* background-color: rgb(43, 226, 134); */
-    background-image: url("../images/consequences-16-8_70.jpg");
+    background-image: url("../images/pexels-johannes-plenio-1165982.jpg");
     background-repeat: no-repeat;
     background-size: cover;
+	color: white;
+}
+pre {
+	color: white;
 }
 
 #popCharID {
@@ -57,7 +61,7 @@ footer {
 
 #jqxMenu {
     position: absolute;
-    left: 10px;
+    right: 10px;
     top: 10px;
 }
 
@@ -81,10 +85,12 @@ footer {
     position: relative;
     left: 150px;
     top: -25px;
+	color: white;
 }
 
 #verButtonU {
     position: relative;
     left: 250px;
     top: -51px;
+	color: white;
 }
