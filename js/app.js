@@ -296,6 +296,7 @@ $(function() {
             alert("Um, please enter your Character ID");
         } else   {
 			$('#jsonUrlText').html('<a href="https://character-service.dndbeyond.com/character/v3/character/' + $('#getcharID').val().trim() + '" target="_blank">READY</a> <b>&lt;--CLICK HERE</b>');
+			window.open("https://character-service.dndbeyond.com/character/v3/character/" + $('#getcharID').val().trim(), "_blank");
 		}
 			/*
             $.ajax({
